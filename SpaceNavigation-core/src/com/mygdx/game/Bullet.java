@@ -1,49 +1,67 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 
-public class Bullet {
-
-	private int xSpeed;
-	private int ySpeed;
+public class Bullet implements Movible {
+	private int movementModifier = 5;
 	private boolean destroyed = false;
 	private Sprite spr;
 	    
 	    public Bullet(float x, float y, int xSpeed, int ySpeed, Texture tx) {
 	    	spr = new Sprite(tx);
 	    	spr.setPosition(x, y);
-	        this.xSpeed = xSpeed;
-	        this.ySpeed = ySpeed;
 	    }
+	    
+		public float mover(float x, float y) {
+			// Mover constantemente.
+			y = y + movementModifier;
+			return y;
+			
+		}
+
+		public float checkBorders(float x, float y) {
+			// Verificar si pasó el borde.
+			if (y > bordeSup) {
+				destroyed = true;
+			}
+			return y;
+		}
+		
+		public void setPos (Sprite spr, float x, float y) {
+			y = mover(x, y);
+			y = checkBorders(x, y);
+			spr.setPosition(x, y);
+		}
+		
 	    public void update() {
-	        spr.setPosition(spr.getX()+xSpeed, spr.getY()+ySpeed);
-	        if (spr.getX() < 0 || spr.getX()+spr.getWidth() > Gdx.graphics.getWidth()) {
-	            destroyed = true;
-	        }
-	        if (spr.getY() < 0 || spr.getY()+spr.getHeight() > Gdx.graphics.getHeight()) {
-	        	destroyed = true;
-	        }
-	        
+	    	//Actualizar el estado de la bala.
+	    	float x = spr.getX();
+			float y = spr.getY();
+	        setPos(spr, x, y);
 	    }
 	    
 	    public void draw(SpriteBatch batch) {
 	    	spr.draw(batch);
 	    }
 	    
-	    public boolean checkCollision(Ball2 b2) {
-	        if(spr.getBoundingRectangle().overlaps(b2.getArea())){
-	        	// Se destruyen ambos
-	            this.destroyed = true;
+	    public boolean checkCollision(AbstractJunkObject obj) {
+	        if(spr.getBoundingRectangle().overlaps(obj.getArea())){
+	        	System.out.println("olas");
 	            return true;
-	
 	        }
 	        return false;
 	    }
 	    
+		public int getX() {
+			return (int) spr.getX();
+		}
+
+		public int getY() {
+			return (int) spr.getY();
+		}
+
 	    public boolean isDestroyed() {return destroyed;}
-	
 }
