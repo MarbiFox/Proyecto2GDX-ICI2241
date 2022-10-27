@@ -24,23 +24,17 @@ public abstract class AbstractJunkObject {
 	private int ySpeed;
 	
 	public AbstractJunkObject(int x, int y, int xSpeed, int ySpeed, int size, Texture tx) {
-		spr = new Sprite(tx);
-		
-		this.x = x;
-		this.y = y;
-		this.xSpeed = xSpeed;
-		this.ySpeed = ySpeed;
-		
- 	
-        //validar que borde x
-    	if (x-size < 0) this.x = x+size;
-    	if (x+size > Gdx.graphics.getWidth())this.x = x-size;
-         
-        //validar que borde y
-    	if (y-size < 0) this.y = y+size;
-    	if (y+size > Gdx.graphics.getHeight())this.y = y-size;
+    	//Coloca el sprite.
+    	spr = new Sprite(tx);
     	
+    	//Inicia el valor de x.
+    	this.x = x;
+        
+        this.y = y;
+        if (y-size < 0) this.y = y+size;
+    	if (y+size > Gdx.graphics.getHeight()) this.y = y-size;
         spr.setPosition(x, y);
+        this.setXSpeed(xSpeed);
 	}
 	
 	//metodos abstractos
@@ -89,19 +83,19 @@ public abstract class AbstractJunkObject {
 		this.y = y;
 	}
 
-	public int getxSpeed() {
+	public int getXSpeed() {
 		return xSpeed;
 	}
 
-	public void setxSpeed(int xSpeed) {
+	public void setXSpeed(int xSpeed) {
 		this.xSpeed = xSpeed;
 	}
 
-	public int getySpeed() {
+	public int getYSpeed() {
 		return ySpeed;
 	}
 
-	public void setySpeed(int ySpeed) {
+	public void setYSpeed(int ySpeed) {
 		this.ySpeed = ySpeed;
 	}
 
