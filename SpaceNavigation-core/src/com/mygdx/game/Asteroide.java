@@ -19,8 +19,7 @@ public class Asteroide extends AbstractJunkObject {
 	}
 	
 	public Rectangle getArea() {
-		System.out.println(spr.getX() + spr.getY() + spr.getWidth() + spr.getHeight());
-		
+		System.out.println(spr.getX() + ' ' + spr.getY() + ' ' + spr.getWidth() + ' ' + spr.getHeight());
 		return spr.getBoundingRectangle();
 	}
 	

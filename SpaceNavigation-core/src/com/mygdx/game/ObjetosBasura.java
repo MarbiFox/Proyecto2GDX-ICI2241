@@ -47,11 +47,6 @@ public class ObjetosBasura {
 	            AbstractJunkObject obj = list.get(i);
 	            obj.update();
 	            obj.draw(batch);
-	            /*if (obj.isDestroyed() == true) {
-	            	System.out.println("golpeé un asteroide");
-	            	remove(obj);
-	            	System.out.println("eliminar");
-	            }*/
 	     }
 	}
 	
@@ -59,14 +54,13 @@ public class ObjetosBasura {
 	public void checkColisionBala(SpriteBatch batch, GrupoBalas bullets) {
 		for (int i = 0; i < list.size(); i++) {
 			AbstractJunkObject obj = list.get(i);
-			for (int j = 0; i < bullets.getSize(); i++) {
+			for (int j = 0; j < bullets.getSize(); j++) {
 				Bullet b = bullets.getBullet(j);
 				if (b.checkCollision(obj) == true) {
-					System.out.println("ola");
 					//explosionSound.play();
-					//obj.setDestroyed();
-					//list.remove(obj);
-					//bullets.eliminarBala(b);
+					obj.setDestroyed();
+					remove(obj);
+					bullets.eliminarBala(b);
 				}
 			}
 		}

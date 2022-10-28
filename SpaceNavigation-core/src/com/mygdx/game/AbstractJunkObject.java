@@ -45,7 +45,6 @@ public abstract class AbstractJunkObject implements Movible {
 	//Podria haber movimiento diferente para algunos objetos
 	public abstract void update();
 	
-	
 	//permitir generar basura en una posición x,y determinada
 	public abstract void draw(SpriteBatch batch);
 	
