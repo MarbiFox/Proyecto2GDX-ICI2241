@@ -1,32 +1,32 @@
-package com.mygdx.game;
+package entidad;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-//import com.badlogic.gdx.math.MathUtils;
+
+import interfaces_abs.Movible;
+import pantalla.PantallaJuego;
+import java.util.Timer;
 
 public class Nave implements Movible {
 
-	private boolean destruida = false;
+	private boolean derrota = false;
 	private int vidas = 3;
-	private int movementModifier = 3;
+	private int movementModifier;
 	private Sprite spr;
-	private Sound soundBala;
-	private Texture txBala;
-	private boolean herido = false;
+	private GrupoBalas bullets;
 
-	public Nave(int x, int y, Texture tx, Texture txBala, Sound soundBala) {
-		this.soundBala = soundBala;
-		this.txBala = txBala;
+	public Nave(int x, int y, Texture tx, GrupoBalas group) {
 		spr = new Sprite(tx);
 		spr.setPosition(x, y);
 		spr.setBounds(x, y, 45, 45);
+		bullets = group;
+		movementModifier = 3;
 	}
 
-	public float mover(float x) {
+	public float mover(float x, float y) {
 		// Mover con teclado.
 		if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
 			x = x - movementModifier;
@@ -38,7 +38,7 @@ public class Nave implements Movible {
 		
 	}
 
-	public float keepInBorder(float x) {
+	public float checkBorders(float x, float y) {
 		// Mantener en los bordes.
 		if (x < bordeIzq) {
 			x = bordeIzq;
@@ -50,44 +50,36 @@ public class Nave implements Movible {
 	}
 	
 	public void setPos (Sprite spr, float x, float y) {
-		x = mover(x);
-		x = keepInBorder(x);
+		x = mover(x, y);
+		x = checkBorders(x, y);
 		spr.setPosition(x, y);
 	}
-
+	
+	public void disparar (float x, float y) {
+		bullets.crearBala(x + spr.getWidth() / 2 - 5,
+				y + spr.getHeight() - 5, 0, 5);
+	}
+	
 	public void draw(SpriteBatch batch, PantallaJuego juego) {
 		float x = spr.getX();
 		float y = spr.getY();
 		setPos(spr, x, y);
 		spr.draw(batch);
-
-		// disparo
-		if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-			Bullet bala = new Bullet(spr.getX() + spr.getWidth() / 2 - 5, spr.getY() + spr.getHeight() - 5, 0, 5,
-					txBala);
-			juego.agregarBala(bala);
-			soundBala.play();
+		// Disparar si se oprime el botón y si la cantidad de balas por pantalla es menor a 4.
+		if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && bullets.getSize() < 4) {
+			//System.out.println(t);
+			disparar(x, y);
 		}
-
-	}
-
-	public boolean checkCollision(Ball2 b) {
-		return true;
 	}
 
 	public boolean estaDestruido() {
-		return !herido && destruida;
-	}
-
-	public boolean estaHerido() {
-		return herido;
+		return derrota;
 	}
 
 	public int getVidas() {
 		return vidas;
 	}
 
-	// public boolean isDestruida() {return destruida;}
 	public int getX() {
 		return (int) spr.getX();
 	}
