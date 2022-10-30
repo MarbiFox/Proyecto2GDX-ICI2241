@@ -16,7 +16,7 @@ public class GrupoBalas {
 	// Constructor
 	public GrupoBalas() {
 		this.balas = new ArrayList<>();
-		soundBala = Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3"));
+		soundBala = Gdx.audio.newSound(Gdx.files.internal("flaunch.wav"));
 		txBala = new Texture(Gdx.files.internal("Rocket2.png"));
 	}
 	
@@ -27,7 +27,7 @@ public class GrupoBalas {
 		// Agregar bala
 		balas.add(bala);
 		// Reproducir sonido
-		soundBala.play();
+		soundBala.play(0.25f);
 	}
 	
 	// Actualizar y dibujar cada bala de la colección

@@ -26,7 +26,7 @@ public class ObjetosBasura {
 		// Crear lista
 		list = new ArrayList<AbstractJunkObject>();
 		// Inicializar el sonido de explosión
-		explosionSound = Gdx.audio.newSound(Gdx.files.internal("explosion.ogg"));
+		explosionSound = Gdx.audio.newSound(Gdx.files.internal("atari_fire_1.wav"));
 		explosionSound.setVolume(1, 0.5f);
 		// Inicializar el modificador de movimiento
 		movementModifier = 1;
@@ -81,7 +81,7 @@ public class ObjetosBasura {
 				// Verificar si existe una colisión entre algun objeto con la bala
 				if (b.checkCollision(obj) == true) {
 					// Efectuar la colisión
-					// explosionSound.play();
+					explosionSound.play();
 					obj.setDestroyed();
 					remove(obj);
 					bullets.eliminarBala(b);

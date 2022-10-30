@@ -40,15 +40,16 @@ public class PantallaJuego implements Screen {
 		camera.setToOrtho(false, 800, 640);
 		
 		// Inicializar música de fondo.
-		gameMusic = Gdx.audio.newMusic(Gdx.files.internal("piano-loops.wav")); //
+		gameMusic = Gdx.audio.newMusic(Gdx.files.internal("level1.ogg")); //
 		gameMusic.setLooping(true);
-		gameMusic.setVolume(0.2f);
+		gameMusic.setVolume(0.8f);
 		gameMusic.play();
 
 		// Inicializar nave.
-		nave = new Nave(Gdx.graphics.getWidth() / 2 - 50, 30, new Texture(Gdx.files.internal("MainShip3.png")), balas);
+		nave = new Nave(Gdx.graphics.getWidth() / 2 - 50, 30, new Texture(Gdx.files.internal("ship.png")), balas);
 	}
-
+	
+	// Crear Fondo
 	public void crearFondo() {
 		// Dibujar fondo.
 		batch.draw(tx,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
